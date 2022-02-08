@@ -26,3 +26,31 @@ jobs:
       run: |
         npm install
         grunt
+    - uses: actions/upload-artifact@master
+      with:
+        name: webpack artifacts
+        path: public/
+
+  test: 
+    needs: build
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-2016]
+        node-version: [12.x, 14.x]
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/download-artifact@master
+        with:
+          name: webpack artifacts
+          path: public
+      - name: Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node-version }}
+      - name: grunt install and grunt test
+        run: |
+          npm install
+          grunt test
+        env: 
+          CI: true
