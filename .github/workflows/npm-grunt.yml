@@ -48,8 +48,9 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: ${{ matrix.node-version }}
-      - name: grunt test
+      - name: npm install and grunt test
         run: |
+          npm install
           grunt test
         env: 
           CI: true
