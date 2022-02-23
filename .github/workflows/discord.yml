@@ -3,6 +3,7 @@ on:
   push:
   issues:
     types:
+      - created
       - opened
 
 jobs:
